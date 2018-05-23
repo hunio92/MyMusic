@@ -1,0 +1,22 @@
+{
+  "name": "mymusic",
+  "version": "1.0.0",
+  "description": "My Music storage",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "nodemon": "*",
+    "read": "^1.0.7",
+    "swig": "*",
+    "xmlhttprequest": "*"
+  },
+  "keywords": [
+    "music"
+  ],
+  "author": "Hunor Orban",
+  "license": "ISC"
+}
