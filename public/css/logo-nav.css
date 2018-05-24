@@ -5,7 +5,11 @@
  */
 
 body {
-  padding-top: 54px;
+  padding-top: 285px;
+}
+
+.form-group {
+    text-align: center;
 }
 
 @media (min-width: 992px) {
@@ -13,3 +17,5 @@ body {
     padding-top: 56px;
   }
 }
+
+

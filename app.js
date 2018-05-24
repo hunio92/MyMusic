@@ -7,7 +7,7 @@ var fs = require('fs');
 var read = require('read');
 var path = require('path');
 
-var magyar_path = 'file://' + __dirname  + '/' + 'magyar.txt';
+var magyar_path = 'file://' + __dirname  + '/public/' + 'magyar.txt';
 
 var app = express();
 
@@ -28,7 +28,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-  if(req.body.inputPassword == "12345")
+  if(req.body.inputPassword == "123qwe")
   {
     var delimiter = ' <|> ';
     var str = req.body.inputTitle + delimiter + req.body.inputLink;
