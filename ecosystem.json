@@ -1,0 +1,20 @@
+{
+    "apps" : [{
+        "name"        : "MyMusic",
+        "script"      : "app.js",
+        "env": {
+            "NODE_ENV": "production"
+        }
+    }],
+	"deploy" : {
+		"production" : {
+			"user" : "root",
+			"host" : "89.137.114.140",
+			"port" : "8080",
+			"ref"  : "origin/master",
+			"repo" : "https://github.com/hunio92/MyMusic.git",
+			"path" : "/var/www/MyMusic",
+			"post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+		}
+	}
+}
