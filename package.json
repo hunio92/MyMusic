@@ -4,6 +4,7 @@
   "description": "My Music storage",
   "main": "gulpfile.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "test"
   },
   "dependencies": {

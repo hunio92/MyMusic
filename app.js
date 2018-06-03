@@ -2,12 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 swig.setDefaults({ cache: false });
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var fs = require('fs');
 var read = require('read');
 var path = require('path');
 
-var magyar_path = 'file://' + __dirname  + '/public/' + 'magyar.txt';
+var file_path = __dirname  + '/public/' + 'magyar.txt'
 
 var app = express();
 
@@ -23,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res){
-    var list = readTextFile(magyar_path);
+    var list = readTextFile(file_path);
     res.render('index', {list: list});
 });
 
@@ -32,9 +31,9 @@ app.post('/', function(req, res){
   {
     var delimiter = ' <|> ';
     var str = req.body.inputTitle + delimiter + req.body.inputLink;
-    writeTextFile('magyar.txt', str);
+    writeTextFile(file_path, str);
 
-    var list = readTextFile(magyar_path);
+    var list = readTextFile(file_path);
     list.push({ title: req.body.inputTitle, link: req.body.inputLink });
 
     res.render('index', {list: list});
@@ -46,33 +45,23 @@ app.listen(port, ()=> console.log(`listening on: localhost:${port}`));
 
 // ************ FUNCTIONS ************ //
 
-function readTextFile(file)
+function readTextFile(file_path)
 {
-    var list = [];
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var lines = rawFile.responseText.split('\n');
-                for(i = 0; i < lines.length; i++){
-                    var res_split = lines[i].split("<|>");
-                    list.push({ title: res_split[0], link: res_split[1] });
-                }
-            }
-        }
+    try {
+      var data = fs.readFileSync(file_path, 'utf8')
+      return data.split('\r\n').filter(line => line.length > 0).map((line) => {
+        var comp = line.split("<|>")
+        return { title: comp[0], link: comp[1] }
+      });
+    } catch (e) {
+      return [];
     }
-    rawFile.send(null);
-    return list;
 }
 
 function writeTextFile(filename, output) {
     fs.open(filename, 'a+', (err, filename) => {
       if (err) throw err;
-      fs.appendFile(filename, '\r\n' + output, 'utf8', (err) => {
+      fs.appendFile(filename, output + '\r\n', 'utf8', (err) => {
         fs.close(filename, (err) => {
           if (err) throw err;
         });
